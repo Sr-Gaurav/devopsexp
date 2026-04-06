@@ -9,12 +9,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/Sr-Gaurav/devopsexp.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
@@ -25,7 +19,7 @@ pipeline {
             steps {
                 sh '''
                 docker rm -f $CONTAINER_NAME || true
-                docker run -d -p 3000:3000 --name $CONTAINER_NAME $IMAGE_NAME
+                docker run -d -p $PORT:80 --name $CONTAINER_NAME $IMAGE_NAME
                 '''
             }
         }
